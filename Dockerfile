@@ -22,7 +22,8 @@ COPY src ./src
 COPY public ./public
 COPY next.config.ts .
 COPY tsconfig.json .
-COPY postcss.config.mjs ./
+COPY postcss.config.mjs .
+COPY drizzle.config.ts .
 
 # Environment variables must be present at build time
 # https://github.com/vercel/next.js/discussions/14030
