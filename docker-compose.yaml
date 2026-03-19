@@ -13,7 +13,8 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_NAME}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_URL: ${DATABASE_URL}
     depends_on:
       - postgres
     networks:
@@ -22,7 +23,7 @@ services:
   postgres:
     image: postgres:16-alpine
     ports:
-      - "5433:5432"
+      - "${POSTGRES_PORT}:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -37,22 +38,8 @@ services:
     networks:
       - se_project_network
 
-  pgadmin:
-    image: dpage/pgadmin4
-    ports:
-      - 15433:80
-    env_file:
-      - .env
-    depends_on:
-      - postgres
-    networks:
-      - se_project_network
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin/
-
 volumes:
   postgres-data:
-  pgadmin-data:
 
 networks:
   se_project_network:
