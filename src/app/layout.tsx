@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const manrope = localFont({
   src: [
@@ -32,14 +33,15 @@ const manrope = localFont({
     {
       path: "../../public/fonts/manrope-bold.otf",
       weight: "700",
-      style: "normal",
+      style: "bold",
     },
     {
       path: "../../public/fonts/manrope-extrabold.otf",
       weight: "800",
-      style: "normal",
+      style: "bold",
     },
   ],
+  variable: "--font-manrope",
 });
 
 export const metadata: Metadata = {
@@ -54,7 +56,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${manrope.className} antialiased`}>{children}</body>
+      <body className={`${manrope.className} antialiased`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

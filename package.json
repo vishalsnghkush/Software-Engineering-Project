@@ -10,8 +10,10 @@
     "update": "pnpm install && pnpm drizzle-kit push"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.10",
     "dotenv": "^17.3.1",
     "drizzle-orm": "0.38.3",
+    "framer-motion": "^12.38.0",
     "next": "16.1.6",
     "pg": "^8.20.0",
     "postgres": "^3.4.8",
