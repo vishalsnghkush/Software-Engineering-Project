@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "update": "pnpm install && pnpm drizzle-kit push"
   },
   "dependencies": {
     "dotenv": "^17.3.1",
