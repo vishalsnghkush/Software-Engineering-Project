@@ -1,6 +1,6 @@
-import MainHeader from "@/components/main-header";
-import MainSidebar from "@/components/main-sidebar";
 import React from "react";
+import MainHeader from "./_components/main-header";
+import MainSidebar from "./_components/main-sidebar";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
