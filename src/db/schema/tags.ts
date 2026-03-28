@@ -2,7 +2,7 @@ import { InferSelectModel } from "drizzle-orm";
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 
 export const tags = pgTable("tags", {
-  id: uuid().primaryKey(),
+  id: uuid().primaryKey().defaultRandom(),
   name: text().notNull().unique(),
   label: text().notNull(),
 });

@@ -11,10 +11,12 @@
     "update": "pnpm install && pnpm drizzle-kit push"
   },
   "dependencies": {
+    "@better-auth/drizzle-adapter": "^1.5.6",
     "@heroui/react": "^2.8.10",
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
     "@phosphor-icons/react": "^2.1.10",
+    "better-auth": "^1.5.6",
     "dotenv": "^17.3.1",
     "drizzle-orm": "0.38.3",
     "framer-motion": "^12.38.0",

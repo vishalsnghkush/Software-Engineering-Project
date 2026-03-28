@@ -1,12 +1,12 @@
 import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
-import { users } from "./users";
 import { InferSelectModel } from "drizzle-orm";
+import { users } from "./auth-schema";
 
 export const questionPapers = pgTable("question_papers", {
-  id: uuid().primaryKey(),
+  id: uuid().primaryKey().defaultRandom(),
   name: text().notNull(),
   createdAt: timestamp().defaultNow().notNull(),
-  userId: uuid().references(() => users.id, { onDelete: "cascade" }),
+  userId: text().references(() => users.id, { onDelete: "cascade" }),
   timeLimit: integer().notNull(),
 });
 

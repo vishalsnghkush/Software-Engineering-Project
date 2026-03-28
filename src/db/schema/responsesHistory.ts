@@ -9,7 +9,7 @@ import {
 import { responses } from "./responses";
 
 export const responsesHistory = pgTable("responses_history", {
-  id: uuid().primaryKey(),
+  id: uuid().primaryKey().defaultRandom(),
   responseId: uuid().references(() => responses.id, { onDelete: "cascade" }),
   attemptedAt: timestamp().notNull(),
   responseValue: json(),

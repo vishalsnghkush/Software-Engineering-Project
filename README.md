@@ -26,6 +26,7 @@ Ensure you have the following prequisites:
 
 1. Kill the terminal running `pnpm run dev` by inputting `Ctrl + C` inside the terminal
 2. Run `docker compose -f docker-compose.dev.yaml down`
+> To delete all data stored in the docker containers, run `docker compose -f docker-compose.dev.yaml down --volumes`
 
 # Execution Instructions (Production mode)
 

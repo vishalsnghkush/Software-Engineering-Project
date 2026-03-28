@@ -11,7 +11,7 @@ import { questions } from "./questions";
 import { InferSelectModel } from "drizzle-orm";
 
 export const responses = pgTable("responses", {
-  id: uuid().primaryKey(),
+  id: uuid().primaryKey().defaultRandom(),
   sessionId: uuid().references(() => testSessions.id, { onDelete: "cascade" }),
   questionId: uuid().references(() => questions.id, { onDelete: "cascade" }),
   responseValue: json(),

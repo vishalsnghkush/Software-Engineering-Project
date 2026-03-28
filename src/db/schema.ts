@@ -1,9 +1,7 @@
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 
-const connectionString: string = process.env.DATABASE_URL!;
-
-const pool = postgres(connectionString, {
+const pool = postgres({
   max: 1,
   ssl: false,
   host: "localhost",

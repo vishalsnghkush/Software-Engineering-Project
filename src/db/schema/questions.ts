@@ -3,7 +3,7 @@ import { questionPapers } from "./questionPapers";
 import { InferSelectModel } from "drizzle-orm";
 
 export const questions = pgTable("questions", {
-  id: uuid().primaryKey(),
+  id: uuid().primaryKey().defaultRandom(),
   qpId: uuid().references(() => questionPapers.id, { onDelete: "cascade" }),
   questionText: text().notNull(),
   questionType: integer().notNull(),
