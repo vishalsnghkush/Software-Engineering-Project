@@ -4,11 +4,13 @@ import MainSidebar from "./_components/main-sidebar";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 import { DEFAULT_GUEST_REDIRECT } from "../../../routes";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const MainLayout = async ({ children }: { children: React.ReactNode }) => {
-  const { data, error } = await authClient.getSession();
+  const session = await auth.api.getSession({ headers: await headers() });
 
-  if (data && !data.user) {
+  if (!session) {
     redirect(DEFAULT_GUEST_REDIRECT);
   }
 
