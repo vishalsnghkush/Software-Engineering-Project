@@ -1,31 +1,155 @@
 "use client";
 
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
-import { Button } from "@heroui/react";
+import { Button, Form, Input } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { DEFAULT_LOGGEDUSER_REDIRECT } from "../../../../routes";
+import { loginSchema } from "@/lib/zod/login";
+import z from "zod";
+import { useState } from "react";
+import { EyeClosedIcon, EyeIcon } from "@phosphor-icons/react";
+import Link from "next/link";
 
 const LoginPage = () => {
   const router = useRouter();
 
-  const handleSignIn = async () => {
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { isSubmitting },
+  } = useForm<z.infer<typeof loginSchema>>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const onSignIn: SubmitHandler<z.infer<typeof loginSchema>> = async (data) => {
     await authClient.signIn
       .email({
-        email: "demo@demo.com",
-        password: "DemoDemo@123",
+        email: data.email,
+        password: data.password,
         callbackURL: "/home",
       })
       .then((e) => {
         console.log("user:", e.data);
-        console.log("error:", e.error);
-
-        router.push(DEFAULT_LOGGEDUSER_REDIRECT);
+        if (e.error) {
+          setError(e.error.message ?? "Error encountered");
+        } else {
+          router.push(DEFAULT_LOGGEDUSER_REDIRECT);
+        }
+      })
+      .catch((e) => {
+        setError(e);
       });
   };
 
   return (
-    <div>
-      <Button onPress={handleSignIn}>Log in</Button>
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+      <div
+        className="bg-indigo-400 px-8 py-6 md:p-12 flex flex-col justify-between
+      relative overflow-hidden min-h-56"
+      >
+        <div className="flex items-center gap-2">
+          <div className="text-2xl text-indigo-200">◈</div>
+          <span className="text-lg font-medium text-white">SE Project</span>
+        </div>
+
+        <div className="">
+          <h1 className="text-4xl leading-11 font-medium text-white font-stretch-semi-condensed">
+            Practice smarter.
+            <br />
+            Perform better.
+          </h1>
+          <p className="text-sm text-indigo-100">
+            AI-powered Computer Based Tests for JEE, GATE, CUET and more.
+            Practice with real exam patterns and get personalised analysis.
+          </p>
+        </div>
+
+        <div className="flex gap-6">
+          {[
+            { name: "JEE", sub: "Main & Advanced" },
+            { name: "GATE", sub: "CS & ECE" },
+            { name: "CUET", sub: "UG & PG" },
+          ].map((ex) => (
+            <div key={ex.name} className="flex flex-col gap-0.5">
+              <span className="font-base font-medium text-indigo-100">
+                {ex.name}
+              </span>
+              <span className="text-sm text-white opacity-50">{ex.sub}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="bg-indigo-50 flex items-center justify-center flex-col p-8">
+        <div className="w-full max-w-md">
+          <div className="mb-8">
+            <h2 className="text-3xl font-medium text-default-800 mb-1.5 leading-5 tracking-tight">
+              Welcome back
+            </h2>
+            <p className="text-sm text-indigo-500">
+              Sign in to continue your preparation
+            </p>
+          </div>
+
+          <Form
+            className="flex flex-col gap-4 mb-6"
+            onSubmit={handleSubmit(onSignIn)}
+          >
+            <Controller
+              control={control}
+              name="email"
+              render={({ field }) => (
+                <Input label="Email" id="email" type="email" {...field} />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <Input
+                  label="Password"
+                  id="password"
+                  type={isPasswordVisible ? "text" : "password"}
+                  endContent={
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      onPress={() => setIsPasswordVisible((e) => !e)}
+                    >
+                      {isPasswordVisible ? (
+                        <EyeIcon size={20} />
+                      ) : (
+                        <EyeClosedIcon size={20} />
+                      )}
+                    </Button>
+                  }
+                  {...field}
+                />
+              )}
+            />
+            {<p className="text-danger">{error}</p>}
+
+            <Button isLoading={isSubmitting} type="submit">
+              Log in
+            </Button>
+          </Form>
+
+          <p className="text-indigo-700">
+            Don&apos;t have an account?{" "}
+            <Link href="/signup" className="font-medium underline">
+              Create one
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
