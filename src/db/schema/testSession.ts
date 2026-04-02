@@ -8,6 +8,7 @@ export const testSessions = pgTable("test_sessions", {
   qpId: uuid().references(() => questionPapers.id, { onDelete: "cascade" }),
   userId: text().references(() => users.id, { onDelete: "cascade" }),
   attemptedAt: timestamp().notNull(),
+  submittedAt: timestamp(),
 });
 
 export type TestSession = InferSelectModel<typeof testSessions>;
