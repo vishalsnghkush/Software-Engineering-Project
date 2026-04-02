@@ -6,6 +6,7 @@ import z, {
   literal,
   number,
   object,
+  union,
   uuid,
   xor,
 } from "zod";
@@ -50,6 +51,6 @@ export const ResponseValueSchema = xor([
   singleCorrectOptionResponseValueSchema,
   multipleCorrectOptionsResponseValueSchema,
   numericalResponseValueSchema,
-]);
+]).nullable();
 
 export type ResponseValueJsonType = z.infer<typeof ResponseValueSchema>;

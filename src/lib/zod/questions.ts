@@ -6,6 +6,7 @@ import z, {
   number,
   object,
   string,
+  union,
   uuid,
   xor,
 } from "zod";
@@ -29,7 +30,7 @@ export const singleCorrectOptionQuestionArgumentSchema = object({
   options: array(string()).min(2),
 });
 export const singleCorrectOptionQuestionAnswerSchema = object({
-  correctOption: array(string()).min(1),
+  correctOption: array(number()).min(1),
 });
 export const singleCorrectOptionQuestionSchema = baseQuestionSchema.extend({
   questionType: literal(QuestionType.SingleCorrectOption),
@@ -41,7 +42,7 @@ export const multipleCorrectOptionsQuestionArgumentsSchema = object({
   options: array(string()).min(2),
 });
 export const multipleCorrectOptionsQuestionAnswerSchema = object({
-  correctOptions: array(array(string()).min(1)).min(1),
+  correctOptions: array(array(number()).min(1)).min(1),
 });
 export const multipleCorrectOptionsQuestionSchema = baseQuestionSchema.extend({
   questionType: literal(QuestionType.MultipleCorrectOptions),
