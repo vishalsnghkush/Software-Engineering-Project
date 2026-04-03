@@ -64,7 +64,7 @@ export const getQuestionPaper = async (
 
   const completeQuestionPaper = {
     ...questionPaper,
-    ...(options.showTags && qpTags),
+    ...(options.showTags && { tags: qpTags }),
     questions: questionSets,
   };
 
