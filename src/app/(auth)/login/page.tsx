@@ -45,7 +45,7 @@ const LoginPage = () => {
         }
       })
       .catch((e) => {
-        setError(e);
+        setError(e instanceof Error ? e.message : String(e));
       });
   };
 
@@ -105,19 +105,21 @@ const LoginPage = () => {
             <Controller
               control={control}
               name="email"
-              render={({ field }) => (
-                <Input label="Email" id="email" type="email" {...field} />
+              render={({ field, fieldState }) => (
+                <Input label="Email" id="email" type="text" errorMessage={fieldState.error?.message} isInvalid={!!fieldState.error} {...field} />
               )}
             />
 
             <Controller
               control={control}
               name="password"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <Input
                   label="Password"
                   id="password"
                   type={isPasswordVisible ? "text" : "password"}
+                  errorMessage={fieldState.error?.message}
+                  isInvalid={!!fieldState.error}
                   endContent={
                     <Button
                       isIconOnly

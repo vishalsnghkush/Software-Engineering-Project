@@ -41,25 +41,42 @@ const MainHeader = () => {
             <PopoverTrigger>
               <Avatar
                 showFallback
-                // tabIndex={10}
+                src={user.image || undefined}
                 fallback={<UserIcon size={20} />}
+                className="cursor-pointer"
               />
             </PopoverTrigger>
             <PopoverContent>
-              <div className="p-2">
-                <h3 className="text-lg font-semibold">{user.name}</h3>
-                <p>{user.email}</p>
-                <Button
-                  className="mt-2"
-                  onPress={() => {
-                    authClient.signOut().then((e) => {
-                      console.log(e.data);
-                      router.push(DEFAULT_GUEST_REDIRECT);
-                    });
-                  }}
-                >
-                  Log out
-                </Button>
+              <div className="p-4 w-60">
+                <div className="flex flex-col gap-1 mb-4 border-b border-slate-200 dark:border-slate-700 pb-4">
+                  <h3 className="text-sm font-semibold truncate leading-tight">{user.name}</h3>
+                  <p className="text-xs text-slate-500 truncate leading-tight">{user.email}</p>
+                </div>
+                
+                <div className="flex flex-col gap-2">
+                  <Button
+                    size="sm"
+                    variant="light"
+                    className="justify-start px-2 font-medium"
+                    onPress={() => router.push("/profile")}
+                  >
+                    Manage Profile
+                  </Button>
+                  <Button
+                    size="sm"
+                    color="danger"
+                    variant="flat"
+                    className="justify-start px-2 font-medium"
+                    onPress={() => {
+                      authClient.signOut().then((e) => {
+                        console.log(e.data);
+                        router.push(DEFAULT_GUEST_REDIRECT);
+                      });
+                    }}
+                  >
+                    Log out
+                  </Button>
+                </div>
               </div>
             </PopoverContent>
           </Popover>
