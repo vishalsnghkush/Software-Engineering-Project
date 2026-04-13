@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@heroui/react";
-import { UserCircleIcon, UserIcon } from "@phosphor-icons/react";
+import { BrainIcon, UserCircleIcon, UserIcon } from "@phosphor-icons/react";
 import { redirect, useRouter } from "next/navigation";
 import React from "react";
 import { DEFAULT_GUEST_REDIRECT } from "../../../../routes";
@@ -31,8 +31,9 @@ const MainHeader = () => {
   return (
     <Navbar isBordered>
       <NavbarContent justify="start">
-        <NavbarBrand>
-          <h1 className="text-red">SE Project</h1>
+        <NavbarBrand className="gap-2">
+          <BrainIcon size={20} />
+          <h1 className="text-red">TCAS</h1>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent justify="end">
@@ -49,10 +50,14 @@ const MainHeader = () => {
             <PopoverContent>
               <div className="p-4 w-60">
                 <div className="flex flex-col gap-1 mb-4 border-b border-slate-200 dark:border-slate-700 pb-4">
-                  <h3 className="text-sm font-semibold truncate leading-tight">{user.name}</h3>
-                  <p className="text-xs text-slate-500 truncate leading-tight">{user.email}</p>
+                  <h3 className="text-sm font-semibold truncate leading-tight">
+                    {user.name}
+                  </h3>
+                  <p className="text-xs text-slate-500 truncate leading-tight">
+                    {user.email}
+                  </p>
                 </div>
-                
+
                 <div className="flex flex-col gap-2">
                   <Button
                     size="sm"

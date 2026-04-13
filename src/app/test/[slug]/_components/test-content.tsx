@@ -6,7 +6,16 @@ import {
   Radio,
   RadioGroup,
 } from "@heroui/react";
-import React from "react";
+import React, { useContext } from "react";
+import {
+  ActiveTestContext,
+  UnifiedTestContext,
+  UnifiedTestResponse,
+} from "../page";
+import { QuestionType } from "@/lib/enums/question-type";
+import { Controller, useFormContext } from "react-hook-form";
+import { singleCorrectOptionQuestionArgumentSchema } from "@/lib/zod/questions";
+import z from "zod";
 
 const loremIpsum = `
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -21,13 +30,55 @@ $\\dfrac{8}{4} = 2$
 `;
 
 const TestContent = () => {
+  const unifiedTestElement = useContext(UnifiedTestContext);
+  const questions = unifiedTestElement?.questionList;
+
+  const [activeElement, setActiveElement] = useContext(ActiveTestContext);
+
+  const activeQuestion = questions[activeElement];
+  const currentResponse = unifiedTestElement.responsesList[activeElement];
+
+  const { control, getValues, watch } = useFormContext<UnifiedTestResponse>();
+
+  const formValue = watch();
+
   return (
-    <div className="bg-red-200 overflow-auto h-full w-full p-2 flex flex-col space-y-4">
-      <h2 className="text-lg font-semibold">Question 1</h2>
-      <MarkdownRenderer content={loremIpsum} />
+    <div className="overflow-auto h-full w-full p-2 flex flex-col space-y-4">
+      <h2 className="text-lg font-semibold">Question {activeElement + 1}</h2>
+      <MarkdownRenderer content={activeQuestion.questionText} />
 
       <h3 className="text-sm font-semibold">Enter your response below:</h3>
-
+      {activeQuestion.questionType === QuestionType.SingleCorrectOption && (
+        <Controller
+          control={control}
+          name="answer.selectedOption"
+          render={({
+            field: { name, value, onChange, onBlur, ref },
+            fieldState: { invalid, error },
+          }) => (
+            <RadioGroup
+              ref={ref}
+              value={`${value}`}
+              errorMessage={error?.message}
+              validationBehavior="aria"
+              isInvalid={invalid}
+              onBlur={onBlur}
+              onChange={(e) => onChange(+e.target.value)}
+            >
+              {(
+                activeQuestion.questionArguments as z.infer<
+                  typeof singleCorrectOptionQuestionArgumentSchema
+                >
+              ).options.map((option, index) => (
+                <Radio key={option} value={`${index}`}>
+                  {option}
+                </Radio>
+              ))}
+            </RadioGroup>
+          )}
+        />
+      )}
+      {/* 
       <RadioGroup>
         <Radio value={"0"}>Radio 1</Radio>
         <Radio value={"1"}>Radio 2</Radio>
@@ -42,7 +93,7 @@ const TestContent = () => {
         <Checkbox value={"3"}>Checkbox 4</Checkbox>
       </CheckboxGroup>
 
-      <NumberInput placeholder="Enter a numeric value" />
+      <NumberInput placeholder="Enter a numeric value" /> */}
     </div>
   );
 };

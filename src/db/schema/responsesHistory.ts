@@ -11,7 +11,7 @@ import { responses } from "./responses";
 export const responsesHistory = pgTable("responses_history", {
   id: uuid().primaryKey().defaultRandom(),
   responseId: uuid().references(() => responses.id, { onDelete: "cascade" }),
-  attemptedAt: timestamp().notNull(),
+  attemptedAt: timestamp(),
   responseValue: json(),
   marked: boolean().notNull().default(false),
   timeTaken: integer(),

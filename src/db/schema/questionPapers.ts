@@ -8,6 +8,9 @@ export const questionPapers = pgTable("question_papers", {
   createdAt: timestamp().defaultNow().notNull(),
   userId: text().references(() => users.id, { onDelete: "cascade" }),
   timeLimit: integer().notNull(),
+  subject: text().notNull(),
+  difficulty: text().notNull(),
+  generationType: text().notNull(),
 });
 
 export type QuestionPaper = InferSelectModel<typeof questionPapers>;

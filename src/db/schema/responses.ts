@@ -17,7 +17,7 @@ export const responses = pgTable("responses", {
   questionId: uuid().references(() => questions.id, { onDelete: "cascade" }),
   responseValue: json().$type<ResponseValueJsonType>(),
   responseType: integer().notNull(),
-  attemptedAt: timestamp().notNull(),
+  attemptedAt: timestamp(),
   marked: boolean().notNull().default(false),
   timeTaken: integer(),
 });
