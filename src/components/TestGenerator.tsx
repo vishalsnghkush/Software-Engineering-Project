@@ -134,6 +134,7 @@ export default function TestGenerator({
           apiKey,
           examName,
           generationType,
+          timeLimit: calculateTimeLimit(examName, numQuestions),
           difficulty,
           subject: finalSubject,
           numQuestions: finalNumQuestions,
